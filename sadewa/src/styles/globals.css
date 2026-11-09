@@ -3505,18 +3505,22 @@ svg {
     margin-bottom: 18px;
   }
 
+  .logo-wrap {
+    flex-basis: 62px;
     width: 62px;
     height: 62px;
-    flex-basis: 62px;
   }
 
+  .logo-wrap img {
     width: 54px;
     height: 54px;
   }
 
+  .brand-title {
     font-size: 1.5rem;
   }
 
+  .brand-sub {
     font-size: 0.63rem;
   }
 
@@ -3665,6 +3669,7 @@ svg {
 }
 
 @media (max-width: 380px) {
+  .brand-title {
     font-size: 1.32rem;
   }
 }
