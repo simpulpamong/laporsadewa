@@ -1,0 +1,29 @@
+rules_version = '2';
+
+// SADEWA / Satpol PP Ponorogo — Firestore Security Rules
+//
+// Arsitektur: semua akses data dilakukan server-side via Firebase Admin SDK
+// (SADEWA Next.js API routes + SADEWA Admin Express API) menggunakan
+// service account. Admin SDK BYPASS rules, sehingga deny-by-default untuk
+// klien adalah postur keamanan yang benar.
+//
+// Koleksi utama (server-only): sadewa_reports (rekap+GPS/sampah),
+// report_categories, report_subcategories, admin_users/sesi dikelola server,
+// sadewa-drafts, _counters/internal.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /sadewa-drafts/{draftId} { allow read, write: if false; }
+    match /sadewa_reports/{id} { allow read, write: if false; }
+    match /report_categories/{id} { allow read, write: if false; }
+    match /report_subcategories/{id} { allow read, write: if false; }
+    match /admin_users/{id} { allow read, write: if false; }
+    match /sadewa_config/{id} { allow read, write: if false; }
+    match /_meta/{id} { allow read, write: if false; }
+
+    // Default: tolak semua akses klien
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

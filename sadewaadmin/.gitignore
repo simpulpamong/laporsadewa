@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-api/
+dist-ssr/
+*.local
+
+# Vercel
+.vercel/
+
+# Environment & secrets (jangan commit; pakai .env.example bila perlu)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Cache / tooling
+.vite/
+*.tsbuildinfo
+.eslintcache
+.cache/
+
+# Test / coverage
+coverage/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.sw?
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

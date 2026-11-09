@@ -1,0 +1,29 @@
+# Vercel: abaikan file lokal/dev/tidak perlu deploy (source, public/data, api tetap terikut)
+.git
+.github
+.vscode
+.idea
+node_modules
+dist
+!dist/server.cjs
+!dist/server.cjs.map
+dist-api
+coverage
+.vercel
+
+# Environment & lokal (set di Vercel Project Settings)
+.env
+.env.*
+*.local
+
+# Logs & cache
+*.log
+npm-debug.log*
+pnpm-debug.log*
+*.tsbuildinfo
+.vite
+.cache
+
+# OS
+.DS_Store
+Thumbs.db

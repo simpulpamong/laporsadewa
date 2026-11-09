@@ -1,0 +1,18 @@
+{
+  "id": "/",
+  "name": "SADEWA Admin — Satpol PP Ponorogo",
+  "short_name": "SADEWA Admin",
+  "description": "Workspace admin SADEWA — rekap, peta, Drive, dan pengaturan laporan Satpol PP Ponorogo.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B1120",
+  "theme_color": "#0B1120",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["productivity", "government"],
+  "icons": [
+    { "src": "/assets/sadewa-favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

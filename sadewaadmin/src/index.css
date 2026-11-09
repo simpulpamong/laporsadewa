@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-slate-850: #162032;
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  /* Pemetaan (port PETA) tokens */
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+  --shadow-card: 0 1px 3px 0 rgb(15 23 42 / 0.06), 0 1px 2px -1px rgb(15 23 42 / 0.06);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; height: -webkit-fill-available; }
+  body {
+    font-family: var(--font-sans); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    touch-action: pan-x pan-y; overscroll-behavior: none; min-height: 100vh; min-height: -webkit-fill-available;
+    -webkit-tap-highlight-color: transparent; overflow-x: hidden;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+  #root { min-height: 100vh; min-height: -webkit-fill-available; width: 100%; overflow-x: hidden; }
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right .65rem center; padding-right: 2rem;
+  }
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: rgba(203,213,225,.8); border-radius: 9999px; }
+.dark ::-webkit-scrollbar-thumb { background-color: rgba(71,85,105,.8); }
+* { scrollbar-width: thin; scrollbar-color: rgba(203,213,225,.8) transparent; }
+.dark * { scrollbar-color: rgba(71,85,105,.8) transparent; }
+
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(100,116,139,.45); }
+
+@keyframes modal-overlay-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes modal-panel-in { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
+.modal-overlay-enter { animation: modal-overlay-in .15s ease-out; }
+.modal-panel-enter { animation: modal-panel-in .18s ease-out; }
+
+/* peta/leaflet: hilangkan kotak fokus saat elemen dipilih */
+.leaflet-container .leaflet-interactive:focus,
+.leaflet-container .leaflet-interactive:focus-visible,
+.leaflet-container :focus { outline: none !important; }

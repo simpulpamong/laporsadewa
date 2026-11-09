@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/client",
+  "framework": null,
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "dist/**"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/((?!api/|assets/|data/|.*\\..*).*)", "destination": "/index.html" }
+  ]
+}

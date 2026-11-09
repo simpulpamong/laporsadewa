@@ -1,0 +1,17 @@
+.git
+.github
+.vscode
+.idea
+.vercel
+.next
+node_modules
+coverage
+.env*
+*.log
+*.tsbuildinfo
+README.md
+
+# Admin adalah project Vercel terpisah (folder sadewaadmin) — jangan ikut deploy root Sadewa
+sadewaadmin
+sadewa-admin
+

@@ -1,0 +1,52 @@
+{
+  "name": "sadewa-admin",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/api/server.ts",
+    "build": "vite build && esbuild src/api/server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "start": "node dist/server.cjs",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/geojson": "^7946.0.16",
+    "@types/leaflet": "^1.9.22",
+    "@types/node": "^22.0.0",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.5.2",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.1.18",
+    "tsx": "^4.22.4",
+    "typescript": "^5.9.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@react-pdf/renderer": "^4.9.0",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
+    "clsx": "^2.1.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "firebase-admin": "^13.4.0",
+    "googleapis": "^171.4.0",
+    "jspdf": "^4.2.1",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.511.0",
+    "motion": "^12.42.0",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.7",
+    "tesseract.js": "^7.0.0",
+    "react-dom": "^19.2.7",
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.6.1",
+    "recharts": "^3.10.1"
+  }
+}
