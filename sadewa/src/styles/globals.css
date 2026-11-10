@@ -353,17 +353,14 @@ html.light-mode .landing-brand-lockup-img {
 }
 
 .landing-brand-tagline {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0 0.5em;
   width: min(100%, 420px);
   margin: 0;
   color: var(--muted);
-  font-size: clamp(0.55rem, 1.55vw, 0.68rem);
+  font-size: clamp(0.58rem, 1.6vw, 0.7rem);
   font-weight: 600;
   letter-spacing: 0.14em;
-  line-height: 1.45;
+  line-height: 1.4;
+  text-align: center;
   text-transform: uppercase;
 }
 

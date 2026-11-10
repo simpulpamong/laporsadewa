@@ -187,18 +187,14 @@ export default function CategoryLanding() {
             <Image
               src="/assets/sadewa-full.svg"
               alt={`${APP_NAME} — ${APP_TAGLINE}`}
-              width={2172}
-              height={724}
+              width={1940}
+              height={440}
               priority
               draggable={false}
               className="landing-brand-lockup-img"
             />
           </h1>
-          <p className="landing-brand-tagline" aria-label={APP_TAGLINE}>
-            {APP_TAGLINE.toUpperCase().split(' ').map((word, i) => (
-              <span key={`${word}-${i}`}>{word}</span>
-            ))}
-          </p>
+          <p className="landing-brand-tagline">{APP_TAGLINE.toUpperCase()}</p>
         </div>
         <div className="landing-program">
           <h2 className="landing-heading">SATUAN POLISI PAMONG PRAJA</h2>
