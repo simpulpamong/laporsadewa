@@ -236,7 +236,7 @@ export function AppProvider({
     // Restore persisted settings during bootstrap.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSettings(initial);
-    // Idempoten: skrip bootstrap di <head> sudah memasang class yang sama,
+    // Idempoten: skrip bootstrap tema sudah memasang class yang sama,
     // jadi DOM tidak berubah dan tidak ada kedipan.
     applyThemeToDOM(initial.theme);
     preloadWatermarkLogo(autoWatermarkLogo(category));

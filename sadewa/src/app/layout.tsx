@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { Bebas_Neue, Great_Vibes, Inter } from 'next/font/google';
 import '@/styles/globals.css';
 import { APP_NAME, APP_TAGLINE } from '@/lib/constants';
@@ -80,31 +81,34 @@ const themeBootstrap = `(function(){try{
   d.style.colorScheme=light?'light':'dark';
 }catch(e){}})();`;
 
+const serviceWorkerBootstrap = `(function(){
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').catch(function(err) {
+        console.warn('[sw] pendaftaran service worker gagal', err);
+      });
+    });
+  }
+})();`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id" suppressHydrationWarning data-scroll-behavior="smooth">
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                if ('serviceWorker' in navigator) {
-                  window.addEventListener('load', function() {
-                    navigator.serviceWorker.register('/sw.js').catch(function(err) {
-                      console.warn('[sw] pendaftaran service worker gagal', err);
-                    });
-                  });
-                }
-              })();
-            `,
-          }}
-        />
-      </head>
       <body className={`${inter.variable} ${bebasNeue.variable} ${greatVibes.variable}`}>
+        {/* Dijalankan sebelum hidrasi agar tema tidak berkedip. */}
+        <Script
+          id="theme-bootstrap"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeBootstrap }}
+        />
         <ThemeFrameSync />
         {children}
         <PwaInstall />
+        <Script
+          id="sw-register"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: serviceWorkerBootstrap }}
+        />
       </body>
     </html>
   );
