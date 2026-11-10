@@ -180,7 +180,7 @@ export default function CategoryLanding() {
         </div>
       </div>
 
-      {/* ── Hero: brand lockup dalam kartu ── */}
+      {/* ── Hero: brand lockup + kepanjangan nama ── */}
       <div className="landing-hero">
         <div className="landing-brand">
           <h1 className="landing-brand-lockup">
@@ -194,6 +194,7 @@ export default function CategoryLanding() {
               className="landing-brand-lockup-img"
             />
           </h1>
+          <p className="landing-brand-tagline">{APP_TAGLINE.toUpperCase()}</p>
         </div>
         <div className="landing-program">
           <h2 className="landing-heading">SATUAN POLISI PAMONG PRAJA</h2>

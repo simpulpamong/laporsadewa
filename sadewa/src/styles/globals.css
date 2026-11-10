@@ -319,19 +319,16 @@ svg {
   margin-bottom: clamp(28px, 4.5vw, 44px);
 }
 
-/* Kartu brand: hanya lockup SADEWA (sadewa-full.svg), tanpa logo/teks
-   terpisah. Dibuat sebagai kartu agar tampilan hero terlihat rapi. */
+/* Brand lockup SADEWA (sadewa-full.svg) + kepanjangan nama.
+   Tanpa kartu agar terasa ringan dan menyatu dengan hero. */
 .landing-brand {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
   width: min(100%, 520px);
   margin: 0 auto 22px;
-  padding: clamp(14px, 3.2vw, 22px) clamp(18px, 5vw, 34px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--card);
-  box-shadow: var(--shadow-card);
+  text-align: center;
 }
 
 .landing-brand-lockup {
@@ -353,6 +350,16 @@ svg {
 
 html.light-mode .landing-brand-lockup-img {
   filter: none;
+}
+
+.landing-brand-tagline {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(0.58rem, 1.7vw, 0.72rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
 }
 
 .landing-logo {
@@ -639,9 +646,7 @@ html.light-mode .landing-brand-lockup-img {
 
 @media (max-width: 700px) {
   .landing-brand {
-    align-items: center;
-    gap: 0;
-    padding: 12px 16px;
+    gap: 8px;
   }
 
   .landing-logo {
@@ -670,9 +675,7 @@ html.light-mode .landing-brand-lockup-img {
   }
 
   .landing-brand {
-    align-items: center;
-    gap: 0;
-    padding: 10px 14px;
+    gap: 7px;
   }
 
   .landing-logo {
@@ -3662,7 +3665,6 @@ html.light-mode .landing-brand-lockup-img {
   .landing-hero { margin-bottom: 16px; }
 
   .landing-brand {
-    padding: 10px 12px;
     margin-bottom: 14px;
   }
 
@@ -3687,7 +3689,7 @@ html.light-mode .landing-brand-lockup-img {
 
   .landing-header { margin-bottom: 8px; }
   .landing-hero { margin-bottom: 12px; }
-  .landing-brand { padding: 8px 12px; margin-bottom: 8px; }
+  .landing-brand { gap: 6px; margin-bottom: 8px; }
   .landing-logo { width: 42px; height: 42px; border-radius: 11px; }
   .landing-program { margin-bottom: 6px; }
   .landing-heading { font-size: 1.05rem; }
@@ -3805,7 +3807,7 @@ html.light-mode .landing-card:focus-visible .landing-copy strong {
   }
 
   .landing-brand {
-    padding: 10px 14px;
+    gap: 8px;
   }
 
   .landing-brand-line {
