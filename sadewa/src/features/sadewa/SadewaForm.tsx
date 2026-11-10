@@ -181,9 +181,6 @@ export default function SadewaForm({ className = '', template: initialTemplate =
                 </div>
               ))}
             </div>
-            <div className="report-checklist-note">
-              Checklist membantu memastikan hari, tanggal, waktu, lokasi, dan field penting sudah terisi sesuai format. Status terdeteksi otomatis dari teks yang ditempel.
-            </div>
           </div>
         )}
       </div>

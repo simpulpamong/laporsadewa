@@ -325,9 +325,9 @@ svg {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
   width: min(100%, 520px);
-  margin: 0 auto 22px;
+  margin: 0 auto 20px;
   text-align: center;
 }
 
@@ -353,12 +353,17 @@ html.light-mode .landing-brand-lockup-img {
 }
 
 .landing-brand-tagline {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0 0.5em;
+  width: min(100%, 420px);
   margin: 0;
   color: var(--muted);
-  font-size: clamp(0.58rem, 1.7vw, 0.72rem);
+  font-size: clamp(0.55rem, 1.55vw, 0.68rem);
   font-weight: 600;
-  letter-spacing: 0.16em;
-  line-height: 1.5;
+  letter-spacing: 0.14em;
+  line-height: 1.45;
   text-transform: uppercase;
 }
 
@@ -646,7 +651,7 @@ html.light-mode .landing-brand-lockup-img {
 
 @media (max-width: 700px) {
   .landing-brand {
-    gap: 8px;
+    gap: 3px;
   }
 
   .landing-logo {
@@ -675,7 +680,7 @@ html.light-mode .landing-brand-lockup-img {
   }
 
   .landing-brand {
-    gap: 7px;
+    gap: 3px;
   }
 
   .landing-logo {
@@ -3689,7 +3694,7 @@ html.light-mode .landing-brand-lockup-img {
 
   .landing-header { margin-bottom: 8px; }
   .landing-hero { margin-bottom: 12px; }
-  .landing-brand { gap: 6px; margin-bottom: 8px; }
+  .landing-brand { gap: 3px; margin-bottom: 8px; }
   .landing-logo { width: 42px; height: 42px; border-radius: 11px; }
   .landing-program { margin-bottom: 6px; }
   .landing-heading { font-size: 1.05rem; }
@@ -3807,7 +3812,7 @@ html.light-mode .landing-card:focus-visible .landing-copy strong {
   }
 
   .landing-brand {
-    gap: 8px;
+    gap: 3px;
   }
 
   .landing-brand-line {
@@ -3874,30 +3879,22 @@ html.light-mode .landing-card:focus-visible .landing-copy strong {
    dengan transition di blok utama. Dihapus agar tema tidak berkedip. */
 
 /* === Report field checklist (SadewaForm) === */
-.report-checklist{margin-top:12px;border:1px solid var(--line,#e2e8f0);border-radius:14px;background:linear-gradient(180deg,rgba(59,130,246,.04),rgba(59,130,246,.01));padding:12px}
-[data-theme="dark"] .report-checklist,.dark .report-checklist{border-color:rgba(148,163,184,.18);background:linear-gradient(180deg,rgba(59,130,246,.08),rgba(15,23,42,.18))}
-.report-checklist-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.report-checklist-title{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:13px;color:var(--ink,#0f172a)}
-[data-theme="dark"] .report-checklist-title,.dark .report-checklist-title{color:#e5eefb}
-.report-checklist-pill{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:rgba(100,116,139,.12);color:#475569;white-space:nowrap}
-.report-checklist-pill.ok{background:rgba(16,185,129,.14);color:#047857}
-.report-checklist-pill.warn{background:rgba(245,158,11,.14);color:#b45309}
-[data-theme="dark"] .report-checklist-pill{color:#cbd5e1;background:rgba(148,163,184,.14)}
-[data-theme="dark"] .report-checklist-pill.ok{color:#6ee7b7}
-[data-theme="dark"] .report-checklist-pill.warn{color:#fcd34d}
-.report-checklist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:7px}
-.report-check-item{display:flex;align-items:center;gap:8px;min-width:0;padding:7px 9px;border-radius:10px;border:1px solid rgba(148,163,184,.22);background:rgba(255,255,255,.72);font-size:12px}
-[data-theme="dark"] .report-check-item,.dark .report-check-item{background:rgba(15,23,42,.45);border-color:rgba(148,163,184,.16)}
-.report-check-item.is-filled{border-color:rgba(16,185,129,.28);background:rgba(16,185,129,.07)}
-.report-check-item.is-missing{opacity:.92}
-.report-check-box{width:18px;height:18px;border-radius:6px;border:1.5px solid rgba(148,163,184,.55);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex:0 0 auto;background:rgba(255,255,255,.4)}
-.report-check-item.is-filled .report-check-box{background:#10b981;border-color:#10b981}
-.report-check-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink,#0f172a)}
-[data-theme="dark"] .report-check-label,.dark .report-check-label{color:#e5eefb}
-.report-check-req{margin-left:auto;font-size:10px;color:#b45309;background:rgba(245,158,11,.12);padding:2px 6px;border-radius:999px;flex:0 0 auto}
-.report-check-item.is-filled .report-check-req{color:#047857;background:rgba(16,185,129,.12)}
-.report-checklist-note{margin-top:9px;font-size:11px;line-height:1.45;color:var(--muted,#64748b)}
-@media (max-width:640px){.report-checklist-grid{grid-template-columns:1fr 1fr}.report-check-item{padding:7px 8px}.report-check-label{white-space:normal;line-height:1.25}}
+.report-checklist{margin-top:10px;padding:10px;border:1px solid var(--border);border-radius:12px;background:var(--card-2)}
+.report-checklist-head{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:7px;flex-wrap:wrap}
+.report-checklist-title{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:12px;color:var(--text)}
+.report-checklist-title svg{width:14px;height:14px;color:var(--muted)}
+.report-checklist-pill{font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--blue-pale);color:var(--blue-bright);white-space:nowrap}
+.report-checklist-pill.ok{background:var(--green-dim);color:var(--green)}
+.report-checklist-pill.warn{background:var(--gold-dim);color:var(--gold)}
+.report-checklist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:5px}
+.report-check-item{display:flex;align-items:center;gap:6px;min-width:0;padding:5px 7px;border-radius:7px;border:1px solid var(--border);background:var(--card);font-size:11px;color:var(--text)}
+.report-check-item.is-filled{border-color:var(--border)}
+.report-check-box{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--border-strong);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;line-height:1;color:#fff;flex:0 0 auto;background:transparent}
+.report-check-item.is-filled .report-check-box{background:var(--green);border-color:var(--green)}
+.report-check-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.report-check-req{margin-left:auto;font-size:9px;font-weight:700;color:var(--gold);background:var(--gold-dim);padding:1px 5px;border-radius:999px;flex:0 0 auto}
+.report-check-item.is-filled .report-check-req{color:var(--gold);background:var(--gold-dim)}
+@media (max-width:640px){.report-checklist-grid{grid-template-columns:1fr 1fr}.report-check-label{white-space:normal;line-height:1.25}}
 @media (max-width:420px){.report-checklist-grid{grid-template-columns:1fr}}
 
 
@@ -3972,31 +3969,38 @@ html.light-mode .batik-backdrop-pattern {
 .hdr-brand {
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 4px 2px 10px;
+  gap: 12px;
+  padding: 2px 2px 10px;
 }
 .brand-emblem {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
-  border-radius: 10px;
-  border: 1px solid var(--border-strong);
-  background: var(--card);
-  transition: border-color .18s, transform .18s;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform .18s;
 }
-.brand-emblem:hover { transform: scale(1.05); border-color: var(--blue-dim); }
-.brand-emblem-img { width: 20px; height: 20px; object-fit: contain; }
-.brand-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.brand-emblem:hover { transform: scale(1.05); }
+.brand-emblem-img { width: 100%; height: 100%; object-fit: contain; }
+.brand-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.brand-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
 .brand-name {
-  font-size: .78rem;
+  font-size: .95rem;
   font-weight: 800;
-  letter-spacing: .07em;
+  letter-spacing: .06em;
   color: var(--text);
-  line-height: 1;
+  line-height: 1.1;
 }
+.brand-line .flow-pill { font-size: .8rem; font-weight: 600; }
 .hdr-tagline {
   display: flex;
   align-items: center;
@@ -4006,7 +4010,7 @@ html.light-mode .batik-backdrop-pattern {
   overflow: hidden;
 }
 .hdr-tagline-text {
-  font-size: .68rem;
+  font-size: .7rem;
   color: var(--muted);
   white-space: nowrap;
   overflow: hidden;

@@ -54,11 +54,11 @@ export default function BrandHeader() {
 
       <div className="hdr-brand">
         <Link href="/" className="brand-emblem" aria-label="Kembali ke menu kategori">
-          <Image src="/assets/sadewa.svg" className="brand-emblem-img" alt={APP_NAME} width={22} height={22} priority style={{ height: 'auto' }} />
+          <Image src="/assets/sadewa-favicon.svg" className="brand-emblem-img" alt={APP_NAME} width={30} height={30} priority style={{ height: 'auto' }} />
         </Link>
         <div className="brand-text">
-          <span className="brand-name">{APP_NAME}</span>
-          <div className="hdr-tagline">
+          <div className="brand-line">
+            <span className="brand-name">{APP_NAME}</span>
             <span
               className={`flow-pill ${isDamkarCategory(parentCat) ? 'flow-pill-damkar' : 'flow-pill-satpol'}`}
               title="Kategori aktif"
@@ -66,8 +66,8 @@ export default function BrandHeader() {
               <img src={catLogo} alt="" width={14} height={14} className="flow-pill-logo" style={{ objectFit: 'contain', borderRadius: 3 }} />
               <span>{categoryLabel}</span>
             </span>
-            <span className="hdr-tagline-text">{APP_TAGLINE}</span>
           </div>
+          <span className="hdr-tagline-text">{APP_TAGLINE}</span>
         </div>
       </div>
     </header>

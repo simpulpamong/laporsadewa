@@ -194,7 +194,11 @@ export default function CategoryLanding() {
               className="landing-brand-lockup-img"
             />
           </h1>
-          <p className="landing-brand-tagline">{APP_TAGLINE.toUpperCase()}</p>
+          <p className="landing-brand-tagline" aria-label={APP_TAGLINE}>
+            {APP_TAGLINE.toUpperCase().split(' ').map((word, i) => (
+              <span key={`${word}-${i}`}>{word}</span>
+            ))}
+          </p>
         </div>
         <div className="landing-program">
           <h2 className="landing-heading">SATUAN POLISI PAMONG PRAJA</h2>
