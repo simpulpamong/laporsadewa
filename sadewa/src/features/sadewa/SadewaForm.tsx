@@ -108,10 +108,8 @@ export default function SadewaForm({ className = '', template: initialTemplate =
     });
   }, [reportText, effectiveFormat]);
 
-  const filledCount = checklist.filter(c => c.filled).length;
   const totalCount = checklist.length;
-  const requiredMissing = checklist.filter(c => c.field.required && !c.filled).length;
-  const allFilled = totalCount > 0 && filledCount === totalCount;
+  const allFilled = totalCount > 0 && checklist.every(c => c.filled);
 
   const loadTemplate = () => { if (template) setReportText(template); };
   const copyTemplate = async () => {
@@ -135,7 +133,7 @@ export default function SadewaForm({ className = '', template: initialTemplate =
           className="paste-field"
           value={reportText}
           onChange={event => setReportText(event.target.value)}
-          placeholder="Tempel teks laporan (format WhatsApp sesuai kategori/subkategori). Pastikan hari, tanggal, waktu, lokasi, dan field penting terisi."
+          placeholder="Tempel teks laporan sesuai format."
           rows={8}
           spellCheck={false}
           aria-label="Teks laporan"
@@ -168,16 +166,13 @@ export default function SadewaForm({ className = '', template: initialTemplate =
                 <Icon name={allFilled ? 'circleCheck' : 'file'} />
                 <span>Kelengkapan Format</span>
               </div>
-              <div className={`report-checklist-pill ${allFilled ? 'ok' : requiredMissing ? 'warn' : ''}`}>
-                {filledCount}/{totalCount} terisi{requiredMissing ? ` · ${requiredMissing} wajib belum` : allFilled ? ' · lengkap' : ''}
-              </div>
             </div>
             <div className="report-checklist-grid">
               {checklist.map(({ field, filled }) => (
                 <div key={field.key + field.label} className={`report-check-item ${filled ? 'is-filled' : 'is-missing'} ${field.required ? 'is-required' : ''}`} title={field.required ? 'Disarankan/wajib sesuai format' : 'Opsional'}>
                   <span className="report-check-box" aria-hidden="true">{filled ? '✓' : ''}</span>
                   <span className="report-check-label">{field.label}</span>
-                  {field.required ? <span className="report-check-req">wajib</span> : null}
+                  {field.required ? <span className="report-check-req" aria-label="wajib">*</span> : null}
                 </div>
               ))}
             </div>
