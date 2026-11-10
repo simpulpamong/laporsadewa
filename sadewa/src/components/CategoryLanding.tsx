@@ -256,6 +256,7 @@ export default function CategoryLanding() {
                             height={128}
                             loading="eager"
                             decoding="async"
+                            className={subImg === '/assets/sadewa.svg' ? 'landing-ico-img is-default-logo' : 'landing-ico-img'}
                             onError={e => { e.currentTarget.style.opacity = '0'; }}
                           />
                         ) : (

@@ -538,6 +538,18 @@ html.light-mode .landing-brand-lockup-img {
   object-fit: contain;
 }
 
+/* Subkategori tanpa ikon memakai sadewa.svg (hitam): dibalik di tema
+   gelap agar tetap terlihat jelas, dan tetap hitam di tema terang. */
+.landing-ico img.is-default-logo {
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+html.light-mode .landing-ico img.is-default-logo {
+  filter: none;
+  opacity: 1;
+}
+
 .landing-ico > svg {
   width: 28px;
   height: 28px;
