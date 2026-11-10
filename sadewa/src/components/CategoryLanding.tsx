@@ -180,27 +180,20 @@ export default function CategoryLanding() {
         </div>
       </div>
 
-      {/* ── Hero: logo + branding ── */}
+      {/* ── Hero: brand lockup dalam kartu ── */}
       <div className="landing-hero">
         <div className="landing-brand">
-          <div className="landing-logo">
+          <h1 className="landing-brand-lockup">
             <Image
-              src="/assets/sadewa.svg"
-              alt={`Logo ${APP_NAME}`}
-              width={72}
-              height={72}
+              src="/assets/sadewa-full.svg"
+              alt={`${APP_NAME} — ${APP_TAGLINE}`}
+              width={2172}
+              height={724}
               priority
+              draggable={false}
+              className="landing-brand-lockup-img"
             />
-          </div>
-          <div className="landing-brand-text">
-            <div className="landing-brand-line">
-              <h1 className="landing-title">{APP_NAME}</h1>
-              <span className="landing-badge">
-                <Icon name="smartphone" /> Mobile
-              </span>
-            </div>
-            <p className="landing-subtitle">{APP_TAGLINE.toUpperCase()}</p>
-          </div>
+          </h1>
         </div>
         <div className="landing-program">
           <h2 className="landing-heading">SATUAN POLISI PAMONG PRAJA</h2>

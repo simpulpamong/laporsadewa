@@ -319,11 +319,40 @@ svg {
   margin-bottom: clamp(28px, 4.5vw, 44px);
 }
 
+/* Kartu brand: hanya lockup SADEWA (sadewa-full.svg), tanpa logo/teks
+   terpisah. Dibuat sebagai kartu agar tampilan hero terlihat rapi. */
 .landing-brand {
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-bottom: 20px;
+  justify-content: center;
+  width: min(100%, 520px);
+  margin: 0 auto 22px;
+  padding: clamp(14px, 3.2vw, 22px) clamp(18px, 5vw, 34px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.landing-brand-lockup {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+
+.landing-brand-lockup-img {
+  width: min(100%, 420px);
+  height: auto;
+  /* Logo SVG aslinya hitam: dibalik agar terbaca di tema gelap. */
+  filter: invert(1);
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+html.light-mode .landing-brand-lockup-img {
+  filter: none;
 }
 
 .landing-logo {
@@ -610,9 +639,9 @@ svg {
 
 @media (max-width: 700px) {
   .landing-brand {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
+    align-items: center;
+    gap: 0;
+    padding: 12px 16px;
   }
 
   .landing-logo {
@@ -641,9 +670,9 @@ svg {
   }
 
   .landing-brand {
-    flex-direction: row;
     align-items: center;
-    gap: 12px;
+    gap: 0;
+    padding: 10px 14px;
   }
 
   .landing-logo {
@@ -3633,7 +3662,7 @@ svg {
   .landing-hero { margin-bottom: 16px; }
 
   .landing-brand {
-    gap: 9px;
+    padding: 10px 12px;
     margin-bottom: 14px;
   }
 
@@ -3658,7 +3687,7 @@ svg {
 
   .landing-header { margin-bottom: 8px; }
   .landing-hero { margin-bottom: 12px; }
-  .landing-brand { gap: 8px; margin-bottom: 8px; }
+  .landing-brand { padding: 8px 12px; margin-bottom: 8px; }
   .landing-logo { width: 42px; height: 42px; border-radius: 11px; }
   .landing-program { margin-bottom: 6px; }
   .landing-heading { font-size: 1.05rem; }
@@ -3776,7 +3805,7 @@ html.light-mode .landing-card:focus-visible .landing-copy strong {
   }
 
   .landing-brand {
-    gap: 12px;
+    padding: 10px 14px;
   }
 
   .landing-brand-line {
