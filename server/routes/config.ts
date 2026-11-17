@@ -13,7 +13,15 @@ router.get('/', async (req, res) => {
     console.error('[api/config] failed to load report categories:', error);
     res.set('Cache-Control', 'no-store');
     const message = error instanceof Error ? error.message : 'Gagal memuat kategori laporan dari Firestore.';
-    res.status(message.includes('belum dikonfigurasi') ? 503 : 500).json({
+    const lower = message.toLowerCase();
+    const isConfigIssue =
+      lower.includes('belum dikonfigurasi') ||
+      lower.includes('service account') ||
+      lower.includes('credential') ||
+      lower.includes('permission') ||
+      lower.includes('unauth') ||
+      lower.includes('forbidden');
+    res.status(isConfigIssue ? 503 : 500).json({
       success: false,
       categories: [],
       subcategories: [],
