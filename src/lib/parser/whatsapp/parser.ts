@@ -21,40 +21,40 @@ interface LabelDef { key: string; pattern: string; optionalColon?: boolean }
 
 const LABELS: LabelDef[] = [
   { key: 'header', pattern: 'Mohon\\s+ij[iì]n\\s+Melaporkan[^:\\n*]*', optionalColon: true },
-  { key: 'nomorSpt', pattern: 'NOMOR\\s*SPT' },
-  { key: 'objek', pattern: 'OBJEK|JENIS\\s+KEJADIAN' },
-  { key: 'hariTanggal', pattern: 'HARI\\s*(?:(?:DAN|&|,|/)\\s*)?TANGGAL(?:\\s+PELAKSANAAN(?:NYA)?)?' },
-  { key: 'tanggal', pattern: 'TANGGAL(?:\\s+PELAKSANAAN(?:NYA)?)?' },
-  { key: 'hari', pattern: 'HARI' },
-  { key: 'laporanMasuk', pattern: 'LAPORAN\\s+MASUK' },
-  { key: 'berangkat', pattern: 'WAKTU\\s+BERANGKAT|BERANGKAT' },
-  { key: 'tiba', pattern: 'TIBA\\s+DI\\s*LOKASI' },
-  { key: 'mulai', pattern: 'MULAI\\s+KEGIATAN' },
-  { key: 'selesai', pattern: 'SELESAI\\s+KEGIATAN' },
-  { key: 'kembali', pattern: 'TIBA\\s+KEMBALI(?:\\s+DI\\s+MAKO)?' },
-  { key: 'lokasi', pattern: 'LOKASI(?:\\s+KEJADIAN)?|ALAMAT(?:\\s+KEJADIAN)?' },
+  { key: 'nomorSpt', pattern: 'NOMOR\\s*SPT', optionalColon: true },
+  { key: 'objek', pattern: 'OBJEK|JENIS\\s+KEJADIAN', optionalColon: true },
+  { key: 'hariTanggal', pattern: 'HARI\\s*(?:(?:DAN|&|,|/)\\s*)?TANGGAL(?:\\s+PELAKSANAAN(?:NYA)?)?', optionalColon: true },
+  { key: 'tanggal', pattern: 'TANGGAL(?:\\s+PELAKSANAAN(?:NYA)?)?', optionalColon: true },
+  { key: 'hari', pattern: 'HARI', optionalColon: true },
+  { key: 'laporanMasuk', pattern: 'LAPORAN\\s+MASUK', optionalColon: true },
+  { key: 'berangkat', pattern: 'WAKTU\\s+BERANGKAT|BERANGKAT', optionalColon: true },
+  { key: 'tiba', pattern: 'TIBA\\s+DI\\s*LOKASI', optionalColon: true },
+  { key: 'mulai', pattern: 'MULAI\\s+KEGIATAN', optionalColon: true },
+  { key: 'selesai', pattern: 'SELESAI\\s+KEGIATAN', optionalColon: true },
+  { key: 'kembali', pattern: 'TIBA\\s+KEMBALI(?:\\s+(?:DI\\s+)?MAKO)?|KEMBALI(?:\\s+KE\\s+MAKO)?', optionalColon: true },
+  { key: 'lokasi', pattern: 'LOKASI(?:\\s+KEJADIAN)?|ALAMAT(?:\\s+KEJADIAN)?', optionalColon: true },
   { key: 'gps', pattern: 'GPS|KOORDINAT', optionalColon: true },
-  { key: 'jarak', pattern: 'JARAK\\s+TEMPUH(?:\\s+PERJALANAN)?' },
-  { key: 'estimasi', pattern: 'ESTIMASI\\s+WAKTU(?:\\s+PERJALANAN)?' },
-  { key: 'pelapor', pattern: 'PEMBERI\\s+INFORMASI(?:\\s*\\(\\s*PELAPOR\\s*/\\s*PEMOHON\\s*\\))?|PELAPOR\\s*/\\s*PEMOHON|PELAPOR|PEMOHON' },
-  { key: 'pemilik', pattern: 'PEMILIK(?:\\s*NYA)?' },
-  { key: 'penghuni', pattern: 'JUMLAH\\s+PENGHUNI(?:\\s+RUMAH)?(?:\\s+YANG\\s+TERDAMPAK)?' },
-  { key: 'luas', pattern: 'LUAS\\s+AREA(?:\\s+(?:YANG\\s+)?TERBAKAR)?|LUAS\\s+TERBAKAR' },
-  { key: 'areal', pattern: 'AREAL?\\s+YANG\\s+TERBAKAR' },
-  { key: 'korban', pattern: 'KORBAN' },
-  { key: 'kendala', pattern: 'KENDALA' },
-  { key: 'penyebab', pattern: 'PENYEBAB(?:\\s+KEBAKARAN)?' },
+  { key: 'jarak', pattern: 'JARAK\\s+TEMPUH(?:\\s+PERJALANAN)?', optionalColon: true },
+  { key: 'estimasi', pattern: 'ESTIMASI\\s+WAKTU(?:\\s+PERJALANAN)?', optionalColon: true },
+  { key: 'pelapor', pattern: 'PEMBERI\\s+INFORMASI(?:\\s*\\(\\s*PELAPOR\\s*/\\s*PEMOHON\\s*\\))?|PELAPOR\\s*/\\s*PEMOHON|PELAPOR|PEMOHON', optionalColon: true },
+  { key: 'pemilik', pattern: 'PEMILIK(?:\\s*NYA)?', optionalColon: true },
+  { key: 'penghuni', pattern: 'JUMLAH\\s+PENGHUNI(?:\\s+RUMAH)?(?:\\s+YANG\\s+TERDAMPAK)?', optionalColon: true },
+  { key: 'luas', pattern: 'LUAS\\s+AREA(?:\\s+(?:YANG\\s+)?TERBAKAR)?|LUAS\\s+TERBAKAR', optionalColon: true },
+  { key: 'areal', pattern: 'AREAL?\\s+YANG\\s+TERBAKAR', optionalColon: true },
+  { key: 'korban', pattern: 'KORBAN', optionalColon: true },
+  { key: 'kendala', pattern: 'KENDALA', optionalColon: true },
+  { key: 'penyebab', pattern: 'PENYEBAB(?:\\s+KEBAKARAN)?', optionalColon: true },
   { key: 'kronologi', pattern: 'KRONOLOGI(?:\\s+KEJADIAN)?', optionalColon: true },
-  { key: 'kerugian', pattern: 'PERKIRAAN\\s+KERUGIAN|KERUGIAN' },
-  { key: 'harta', pattern: 'PERKIRAAN\\s+HARTA(?:\\s+BENDA)?\\s+YANG\\s+TERSELAMATKAN|(?:HARTA\\s+)?BENDA\\s+YANG\\s+TERSELAMATKAN|HARTA\\s+BENDA\\s+TERSELAMATKAN' },
+  { key: 'kerugian', pattern: 'PERKIRAAN\\s+KERUGIAN|KERUGIAN', optionalColon: true },
+  { key: 'harta', pattern: 'PERKIRAAN\\s+HARTA(?:\\s+BENDA)?\\s+YANG\\s+TERSELAMATKAN|(?:HARTA\\s+)?BENDA\\s+YANG\\s+TERSELAMATKAN|HARTA\\s+BENDA\\s+TERSELAMATKAN', optionalColon: true },
   { key: 'tindakan', pattern: 'TINDAKAN', optionalColon: true },
-  { key: 'rincian', pattern: 'RINCIAN\\s+KEGIATAN' },
-  { key: 'armada', pattern: 'JUMLAH\\s+UNIT\\s+KENDARA(?:AN|KAN)(?:\\s+YANG\\s+DIGUNAKAN)?|JUMLAH\\s+(?:KENDARAAN|ARMADA)(?:\\s+YANG\\s+DIGUNAKAN)?' },
-  { key: 'personil', pattern: 'PERSONIL(?:\\s+YANG\\s+TERLIBAT)?' },
+  { key: 'rincian', pattern: 'RINCIAN\\s+KEGIATAN', optionalColon: true },
+  { key: 'armada', pattern: 'JUMLAH\\s+UNIT\\s+KENDARA(?:AN|KAN)(?:\\s+YANG\\s+DIGUNAKAN)?|JUMLAH\\s+(?:KENDARAAN|ARMADA)(?:\\s+YANG\\s+DIGUNAKAN)?', optionalColon: true },
+  { key: 'personil', pattern: 'PERSONIL(?:\\s+YANG\\s+TERLIBAT)?', optionalColon: true },
   { key: 'penutup', pattern: 'Pelaksanaan\\s+kegiatan\\s+tersebut|Demikian\\s+yang', optionalColon: true },
   { key: 'dokumentasi', pattern: 'DOKUMENTASI(?:\\s+TERLAMPIR)?', optionalColon: true },
-  { key: 'melaporkan', pattern: 'YANG\\s+MELAPORKAN' },
-  { key: 'tembusan', pattern: 'TEMBUSAN' },
+  { key: 'melaporkan', pattern: 'YANG\\s+MELAPORKAN', optionalColon: true },
+  { key: 'tembusan', pattern: 'TEMBUSAN', optionalColon: true },
 ];
 
 const MARK_OPEN = '\u0001';
@@ -164,19 +164,43 @@ function parseGps(value: string): { latitude: string; longitude: string } {
   let raw = String(value || '').replace(/[°º]/g, ' ').replace(/\s+/g, ' ').trim();
   if (!raw) return { latitude: '', longitude: '' };
   raw = raw.replace(/(\d)[\s]+([.,])[\s]*(\d)/g, '$1$2$3').replace(/([.,][\d]+)[\s]+(\d)/g, '$1$2');
-  const m = /([-+]?\d+(?:[.,]\d+)?)\s*([NSns])?\s*[,;\s/]+\s*([-+]?\d+(?:[.,]\d+)?)\s*([EWew])?/.exec(raw)
-    || /([-+]?\d+(?:[.,]\d+)?)\s*[,;\s/]+\s*([-+]?\d+(?:[.,]\d+)?)/.exec(raw);
-  if (m) {
-    const hasDir = /[NSEWnsew]/.test(m[0]);
-    let lat = m[1].replace(',', '.').replace(/^\+/, '');
-    let lng = (hasDir ? m[3] : m[2]).replace(',', '.').replace(/^\+/, '');
-    if (hasDir && /s/i.test(m[2] || '') && !lat.startsWith('-')) lat = `-${lat}`;
-    if (hasDir && /w/i.test(m[4] || '') && !lng.startsWith('-')) lng = `-${lng}`;
-    return { latitude: lat, longitude: lng };
+
+  const mDir = /([-+]?\d+(?:[.,]\d+)?)\s*([NSns])\s*[,;\s/]+\s*([-+]?\d+(?:[.,]\d+)?)\s*([EWew])/.exec(raw);
+  if (mDir) {
+    let lat = mDir[1].replace(',', '.').replace(/^\+/, '');
+    let lng = mDir[3].replace(',', '.').replace(/^\+/, '');
+    if (/s/i.test(mDir[2]) && !lat.startsWith('-')) lat = `-${lat}`;
+    if (/w/i.test(mDir[4]) && !lng.startsWith('-')) lng = `-${lng}`;
+    if (isValidCoord(lat, lng)) return { latitude: lat, longitude: lng };
   }
-  const nums = raw.match(/-?\d{1,3}[.,]\d{3,}/g);
-  if (nums && nums.length >= 2) return { latitude: nums[0].replace(',', '.'), longitude: nums[1].replace(',', '.') };
+
+  const pairRe = /([-+]?\d+(?:[.,]\d+)?)\s*[,;\s/]+\s*([-+]?\d+(?:[.,]\d+)?)/g;
+  let pair: RegExpExecArray | null;
+  while ((pair = pairRe.exec(raw))) {
+    const lat = pair[1].replace(',', '.').replace(/^\+/, '');
+    const lng = pair[2].replace(',', '.').replace(/^\+/, '');
+    if (isValidCoord(lat, lng)) return { latitude: lat, longitude: lng };
+  }
+
+  const nums = raw.match(/-?\d{1,3}[.,]\d{3,}/g) || [];
+  for (let i = 0; i + 1 < nums.length; i++) {
+    const lat = nums[i].replace(',', '.');
+    const lng = nums[i + 1].replace(',', '.');
+    if (isValidCoord(lat, lng)) return { latitude: lat, longitude: lng };
+  }
   return { latitude: '', longitude: '' };
+}
+
+function isValidCoord(latS: string, lngS: string): boolean {
+  const lat = Number(latS);
+  const lng = Number(lngS);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return false;
+  if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return false;
+  if (Math.abs(lat) < 0.0001 && Math.abs(lng) < 0.0001) return false;
+  // Hindari pasangan angka acak (mis. kode pos + latitude). Untuk konteks laporan Indonesia, prefer koordinat Indonesia; tetap izinkan koordinat valid umum.
+  if (lat >= -11.5 && lat <= 6.5 && lng >= 94.5 && lng <= 141.5) return true;
+  // bila salah satu punya presisi koordinat (desimal) dan pasangan valid global, terima
+  return /[.,]\d{3,}/.test(latS) && /[.,]\d{3,}/.test(lngS);
 }
 
 export interface ParsedReport {
@@ -214,8 +238,10 @@ export function parseReport(rawText: string): ParsedReport {
     if (d) hari = DAY_NAMES[d.getDay()];
   }
 
-  // GPS
-  const gps = parseGps(sec.gps || '');
+  // GPS: dari label GPS/KOORDINAT, atau fallback dari lokasi/seluruh teks (sering koordinat ditulis di blok lokasi tanpa label GPS)
+  let gps = parseGps(sec.gps || '');
+  if (!gps.latitude || !gps.longitude) gps = parseGps(sec.lokasi || '');
+  if (!gps.latitude || !gps.longitude) gps = parseGps(plain);
   const googleMaps = gps.latitude && gps.longitude
     ? `https://www.google.com/maps?q=${gps.latitude},${gps.longitude}` : '';
 
