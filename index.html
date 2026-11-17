@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>SADEWA - Sistem Aksi dan Evaluasi Praja Wibawa</title>
+    <meta name="description" content="Sistem Aksi dan Evaluasi Praja Wibawa" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/assets/sadewa-white.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/sadewa-white.svg" />
+    <meta name="theme-color" content="#080d18" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+      (function(){
+        try{
+          var q=new URLSearchParams(location.search).get('theme');
+          var r=localStorage.getItem('sadewa:v5:settings');
+          var s=r?JSON.parse(r).theme:null;
+          var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+          var t=(q==='dark'||q==='light')?q:((s==='light'||s==='dark')?s:sys);
+          var light=t==='light';
+          var d=document.documentElement;
+          d.classList.toggle('light-mode',light);
+          d.style.colorScheme=light?'light':'dark';
+        }catch(e){}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').catch(function(err) {
+            console.warn('[sw] pendaftaran service worker gagal', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

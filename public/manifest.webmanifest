@@ -1,0 +1,18 @@
+{
+  "id": "/",
+  "name": "SADEWA — Sistem Aksi dan Evaluasi Praja Wibawa",
+  "short_name": "SADEWA",
+  "description": "Sistem Aksi dan Evaluasi Praja Wibawa",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080d18",
+  "theme_color": "#080d18",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities", "government"],
+  "icons": [
+    { "src": "/assets/sadewa-white.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

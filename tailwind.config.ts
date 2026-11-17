@@ -1,0 +1,17 @@
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'Avenir Next', 'sans-serif'],
+        display: ['Bebas Neue', 'Avenir Next', 'sans-serif'],
+        script: ['Great Vibes', 'cursive'],
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
