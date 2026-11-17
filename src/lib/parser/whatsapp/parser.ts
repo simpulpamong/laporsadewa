@@ -90,19 +90,25 @@ export function cleanReportText(text: string): string {
 function markLabels(raw: string): string {
   let t = normalizeRaw(raw)
     // GPS kadang menempel di akhir alamat pada baris yang sama.
-    .replace(/[ \t]*\b(GPS|KOORDINAT)\b(?=[ \t]*[:：]?[ \t]*[-+]?\d)/gi, '\n$1');
+    .replace(/[ \t]*\b(GPS|KOORDINAT)\b(?=[ \t]*[:：]?[ \t]*[-+]?\d)/gi, '\n$1')
+    // label penting kadang menyatu di baris yang sama setelah teks lain (mis. "... PERSONIL YANG TERLIBAT :")
+    .replace(/([^\n])[ \t]{2,}(?=(PERSONIL(?:\s+YANG\s+TERLIBAT)?|JUMLAH\s+UNIT\s+KENDARA(?:AN|KAN)|RINCIAN\s+KEGIATAN|YANG\s+MELAPORKAN|JUMLAH\s+PENGHUNI|PEMBERI\s+INFORMASI)\b)/gi, '$1\n');
 
-  // Tahap 1: label tebal WhatsApp: *LABEL :*  /  *Kronologi*  /  *Areal*:
+  // Tahap 1: label tebal WhatsApp: *LABEL :*  /  *Kronologi*  /  *Areal*:  (juga tangani *LABEL tanpa penutup)
   for (const { key, pattern } of LABELS) {
     t = t.replace(
       new RegExp(`\\*[ \\t]*(?:${pattern})[ \\t]*[:：]?[ \\t]*\\*(?:[ \\t]*[:：])?`, 'gi'),
       `\n${MARK_OPEN}${key}${MARK_CLOSE} `,
     );
+    t = t.replace(
+      new RegExp(`(^|\\n)[ \\t]*\\*[ \\t]*(?:${pattern})(?![\\p{L}\\p{N}])[ \\t]*[:：]?[ \\t]*`, 'giu'),
+      (_m, nl: string) => `${nl}\n${MARK_OPEN}${key}${MARK_CLOSE} `,
+    );
   }
-  // Tahap 2: label tanpa tanda bintang, harus di awal baris.
+  // Tahap 2: label tanpa tanda bintang, harus di awal baris (toleran awalan ., -, #, dll)
   for (const { key, pattern, optionalColon } of LABELS) {
     t = t.replace(
-      new RegExp(`(^|\\n)[ \\t]*(?:${pattern})(?![\\p{L}\\p{N}])[ \\t]*${optionalColon ? '[:：]?' : '[:：]'}[ \\t]*`, 'giu'),
+      new RegExp(`(^|\\n)[ \\t]*[.#\\-–—*]*[ \\t]*(?:${pattern})(?![\\p{L}\\p{N}])[ \\t]*${optionalColon ? '[:：]?' : '[:：]'}[ \\t]*`, 'giu'),
       (_m, nl: string) => `${nl}\n${MARK_OPEN}${key}${MARK_CLOSE} `,
     );
   }
@@ -143,7 +149,7 @@ function normalizeDay(value: string): string {
 }
 
 const DAY_NAMES = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-const DATE_RE = /(\d{1,2}\s+[A-Za-zÀ-ÿ]+\s+\d{4}|\d{1,2}[-/]\d{1,2}[-/]\d{4})/;
+const DATE_RE = /(\d{1,2}[\s.,-]*[A-Za-zÀ-ÿ]+[\s.,-]*\d{4}|\d{1,2}[-/]\d{1,2}[-/]\d{4})/;
 const DAY_BEFORE_RE = /([A-Za-zÀ-ÿ]+(?:['’‘`´][A-Za-zÀ-ÿ]+)?)\s*,?\s*$/;
 
 function extractDayDate(source: string): { hari: string; tanggal: string } {
@@ -153,12 +159,17 @@ function extractDayDate(source: string): { hari: string; tanggal: string } {
   const d = DAY_BEFORE_RE.exec(before);
   const candidate = d ? normalizeDay(d[1]) : '';
   const isDay = DAY_NAMES.includes(candidate);
-  return { hari: isDay ? candidate : '', tanggal: m[1].replace(/\s+/g, ' ').trim() };
+  let tanggal = m[1].replace(/\s+/g, ' ').trim();
+  // "31Oktober 2026" -> "31 Oktober 2026"
+  tanggal = tanggal.replace(/^(\d{1,2})([A-Za-zÀ-ÿ]+)/, '$1 $2').replace(/([A-Za-zÀ-ÿ]+)(\d{4})$/, '$1 $4');
+  tanggal = tanggal.replace(/\s*,\s*/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  return { hari: isDay ? candidate : '', tanggal };
 }
 
 function normalizeTime(value: string): string {
   let s = String(value || '')
     .replace(/wib|wita|wit/gi, ' ')
+    .replace(/[.:,]{2,}/g, '.')
     .replace(/([.:,])\s+([.:,])/g, '$1') // "10. .45" -> "10.45"
     .replace(/(\d)\s+([.:,])\s*(\d)/g, '$1$2$3') // "10. 05" / "10 .30" -> "10.05"/"10.30"
     .replace(/(\d)\s*([.:,])\s+(\d)/g, '$1$2$3')
@@ -177,7 +188,13 @@ function parseGps(value: string): { latitude: string; longitude: string } {
   raw = raw
     .replace(/(\d)\s*[.,]\s+(\d)/g, '$1.$2')
     .replace(/(\d)\s+([.,])\s*(\d)/g, '$1$2$3')
-    .replace(/([.,]\d+)\s+(\d)/g, '$1$2');
+    .replace(/([.,]\d+)\s+(\d)/g, '$1$2')
+    // "111 468440" -> "111.468440" (koordinat tanpa titik desimal)
+    .replace(/\b(\d{2,3})\s+(\d{5,7})\b/g, '$1.$2')
+    // "787473" (6-7 digit menempel, lat/lng Indonesia tanpa desimal) -> sisipkan titik setelah digit awal yang masuk akal
+    .replace(/(^|[^0-9.])(-?)(\d)(\d{5,7})\b(?=\s*[NSns,;\s\/]|$)/g, (_m, p, sign, a, b) => `${p}${sign}${a}.${b}`)
+    // "7-961167" -> "7.961167" (salah ketik pemisah desimal)
+    .replace(/(\d)-(\d{4,7})\b/g, '$1.$2');
   // normalize direction markers: keep space before direction but remove stray dots/spaces around
   raw = raw
     .replace(/([0-9])\s*([NSns])\b/g, '$1 $2')
@@ -350,10 +367,15 @@ export function parseReport(rawText: string): ParsedReport {
 /** Tanggal Indonesia ("Sabtu, 26 September 2026") menjadi Date. */
 export function parseIndonesianDate(value: string): Date | null {
   if (!value) return null;
-  const normalized = value.replace(/^[A-Za-z]+,?\s*/i, '').trim().toLowerCase();
-  const long = /(\d{1,2})\s+([a-z]+)\s+(\d{4})/.exec(normalized);
+  const normalized = value.replace(/^[A-Za-zÀ-ÿ'’`´.\s]+,?\s*/i, '').trim().toLowerCase().replace(/^[\s,.-]+/, '');
+  const long = /(\d{1,2})[\s,.-]*([a-zà-ÿ]+)[\s,.-]*(\d{4})/i.exec(normalized) || /(\d{1,2})[\s,.-]*([a-zà-ÿ]+)[\s,.-]*(\d{4})/i.exec(value.toLowerCase());
   if (long && MONTH_INDEX[long[2]] !== undefined) {
     return new Date(Number(long[3]), MONTH_INDEX[long[2]], Number(long[1]));
+  }
+  // handle "31Oktober 2026" (no space)
+  const glued = /(\d{1,2})([a-zà-ÿ]+)(\d{4})/i.exec(normalized) || /(\d{1,2})([a-zà-ÿ]+)(\d{4})/i.exec(value.toLowerCase());
+  if (glued && MONTH_INDEX[glued[2]] !== undefined) {
+    return new Date(Number(glued[3]), MONTH_INDEX[glued[2]], Number(glued[1]));
   }
   const short = /(\d{1,2})[-/](\d{1,2})[-/](\d{4})/.exec(value);
   if (short) {
