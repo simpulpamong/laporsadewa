@@ -5,25 +5,26 @@ function normalizePrivateKey(value: string) {
   return value.replace(/\\n/g, '\n').replace(/\r/g, '');
 }
 
-export function getFirestore() {
-  const rawEnv = process.env.FIREBASE_SERVICE_ACCOUNT || process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-  if (!rawEnv?.trim()) {
-    throw new Error('FIREBASE_SERVICE_ACCOUNT atau FIREBASE_SERVICE_ACCOUNT_JSON belum dikonfigurasi di environment server.');
-  }
+function stripWrappingQuotes(value: string) {
+  const t = value.trim();
+  if ((t.startsWith('"') && t.endsWith('"')) || (t.startsWith("'") && t.endsWith("'"))) return t.slice(1, -1).trim();
+  return t;
+}
 
-  const raw = rawEnv.trim();
-  let credentials: Record<string, unknown>;
-  try {
-    credentials = JSON.parse(raw);
-  } catch {
-    try {
-      // dukung nilai yang ter-escape ganda (mis. tersimpan sebagai string JSON di env)
-      const unwrapped = JSON.parse(raw) as unknown;
-      if (typeof unwrapped === 'string') credentials = JSON.parse(unwrapped) as Record<string, unknown>;
-      else throw new Error('invalid');
-    } catch {
-      throw new Error('FIREBASE_SERVICE_ACCOUNT harus berisi JSON service account yang valid.');
-    }
+function parseServiceAccount(rawInput: string): ServiceAccount {
+  let raw = stripWrappingQuotes(rawInput);
+  let credentials: Record<string, unknown> | null = null;
+
+  const tryParse = (value: string) => {
+    try { return JSON.parse(value) as unknown; } catch { return null; }
+  };
+
+  let parsed: unknown = tryParse(raw);
+  if (typeof parsed === 'string') parsed = tryParse(parsed);
+  if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) credentials = parsed as Record<string, unknown>;
+
+  if (!credentials) {
+    throw new Error('FIREBASE_SERVICE_ACCOUNT harus berisi JSON service account yang valid.');
   }
 
   const projectId = credentials.project_id ?? credentials.projectId;
@@ -33,13 +34,35 @@ export function getFirestore() {
     throw new Error('Service account Firebase harus memiliki project_id, client_email, dan private_key.');
   }
 
-  const serviceAccount: ServiceAccount = {
+  return {
     projectId,
     clientEmail,
     privateKey: normalizePrivateKey(privateKey),
   };
+}
+
+export function getFirestore() {
+  const candidates = [process.env.FIREBASE_SERVICE_ACCOUNT, process.env.FIREBASE_SERVICE_ACCOUNT_JSON]
+    .map(v => (typeof v === 'string' ? v.trim() : ''))
+    .filter(Boolean);
+
+  if (candidates.length === 0) {
+    throw new Error('FIREBASE_SERVICE_ACCOUNT atau FIREBASE_SERVICE_ACCOUNT_JSON belum dikonfigurasi di environment server.');
+  }
 
   const existing = getApps()[0];
-  const app = existing || initializeApp({ credential: cert(serviceAccount) });
-  return firestore(app);
+  if (existing) return firestore(existing);
+
+  let lastError: unknown;
+  for (const raw of candidates) {
+    try {
+      const serviceAccount = parseServiceAccount(raw);
+      const app = initializeApp({ credential: cert(serviceAccount) });
+      return firestore(app);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new Error('FIREBASE_SERVICE_ACCOUNT harus berisi JSON service account yang valid.');
 }
