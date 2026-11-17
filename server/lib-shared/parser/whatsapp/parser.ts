@@ -114,7 +114,10 @@ function splitSections(raw: string): Record<string, string> {
   const parts = marked.split(new RegExp(`${MARK_OPEN}(\\w+)${MARK_CLOSE}`));
   const sections: Record<string, string> = {};
   for (let i = 1; i < parts.length; i += 2) {
-    if (!(parts[i] in sections)) sections[parts[i]] = parts[i + 1] || '';
+    const key = parts[i];
+    const value = parts[i + 1] || '';
+    if (!(key in sections)) sections[key] = value;
+    else sections[key] = `${sections[key]}\n${value}`.trim();
   }
   return sections;
 }
@@ -154,7 +157,13 @@ function extractDayDate(source: string): { hari: string; tanggal: string } {
 }
 
 function normalizeTime(value: string): string {
-  const s = String(value || '').replace(/wib|wita|wit/gi, ' ').replace(/\s+/g, ' ').trim();
+  let s = String(value || '')
+    .replace(/wib|wita|wit/gi, ' ')
+    .replace(/([.:,])\s+([.:,])/g, '$1') // "10. .45" -> "10.45"
+    .replace(/(\d)\s+([.:,])\s*(\d)/g, '$1$2$3') // "10. 05" / "10 .30" -> "10.05"/"10.30"
+    .replace(/(\d)\s*([.:,])\s+(\d)/g, '$1$2$3')
+    .replace(/\s+/g, ' ')
+    .trim();
   const m = /(\d{1,2})\s*[.:,]\s*(\d{1,2})(?:\s*[.:,]\s*(\d{1,2}))?/.exec(s);
   if (m) return `${m[1].padStart(2, '0')}.${m[2].padStart(2, '0')} WIB`;
   const h = /(\d{1,2})\s*(?:jam|j)\b/i.exec(s);
@@ -163,11 +172,21 @@ function normalizeTime(value: string): string {
 }
 
 function parseGps(value: string): { latitude: string; longitude: string } {
-  let raw = String(value || '').replace(/[°º]/g, ' ').replace(/\s+/g, ' ').trim();
+  let raw = String(value || '').replace(/[°º⁰]/g, ' ').replace(/\s+/g, ' ').trim();
   if (!raw) return { latitude: '', longitude: '' };
-  raw = raw.replace(/(\d)[\s]+([.,])[\s]*(\d)/g, '$1$2$3').replace(/([.,][\d]+)[\s]+(\d)/g, '$1$2');
+  raw = raw
+    .replace(/(\d)\s*[.,]\s+(\d)/g, '$1.$2')
+    .replace(/(\d)\s+([.,])\s*(\d)/g, '$1$2$3')
+    .replace(/([.,]\d+)\s+(\d)/g, '$1$2');
+  // normalize direction markers: keep space before direction but remove stray dots/spaces around
+  raw = raw
+    .replace(/([0-9])\s*([NSns])\b/g, '$1 $2')
+    .replace(/([0-9])\s*([EWew])\b/g, '$1 $2')
+    .replace(/\b([NSns])\s*[.,]\s*/g, '$1 ')
+    .replace(/\b([EWew])\s*[.,]\s*/g, '$1 ')
+    .replace(/([.,])\s*([EWew])\b/g, ' $2');
 
-  const mDir = /([-+]?\d+(?:[.,]\d+)?)\s*([NSns])\s*[,;\s/]+\s*([-+]?\d+(?:[.,]\d+)?)\s*([EWew])/.exec(raw);
+  const mDir = /([-+]?\d+(?:[.,]\d+)?)\s*([NSns])\s*[,;\s/]+\s*([-+]?\d+(?:[.,]\d+)?)\s*[\s.,;/]*([EWew])\b/.exec(raw);
   if (mDir) {
     let lat = mDir[1].replace(',', '.').replace(/^\+/, '');
     let lng = mDir[3].replace(',', '.').replace(/^\+/, '');
@@ -269,10 +288,25 @@ export function parseReport(rawText: string): ParsedReport {
   const objek = single(sec.objek) || single(sec.header);
   const pelapor = single(sec.pelapor);
   const pemilik = single(sec.pemilik);
+  let lokasi = linesOf(sec.lokasi).join('\n');
+  // rapikan: buang sub-label "Alamat"/"GPS"/"Koordinat" dan baris koordinat (sudah diekstrak ke field lat/lng)
+  lokasi = lokasi
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => l && !/^(alamat|gps|koordinat)\b[:\s.-]*$/i.test(l))
+    .filter(l => {
+      const n = l.replace(/[°º⁰]/g, '').replace(/\s+/g, ' ').trim();
+      return !/^[-+]?\d{1,3}(?:[.,]\s*\d+)?\s*([NSns])?\s*[,;\s/]+\s*[-+]?\d{1,3}(?:[.,]\s*\d+)?\s*([EWew])?\s*$/i.test(n);
+    })
+    .join(' ')
+    .replace(/[-+]?\d{1,3}[.,]\s*\d+\s*[NSns]?\s*[,;\/\s]+\s*[-+]?\d{1,3}[.,]\s*\d+\s*[EWew]?/gi, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/^(alamat|lokasi)\s*[:.-]\s*/i, '')
+    .trim();
 
   const parsed: ParsedReport = {
     nomorSpt: single(sec.nomorSpt),
-    lokasi: single(sec.lokasi),
+    lokasi,
     hari,
     tanggal,
     identitas: pemilik || objek || pelapor,
