@@ -72,7 +72,9 @@ function normalizeRaw(text: string): string {
 function stripMarkup(text: string): string {
   return text
     .replace(/[*~`]/g, ' ')
-    .replace(/(?<![\p{L}\p{N}])_|_(?![\p{L}\p{N}])/gu, ' ');
+    .replace(/(^|[^\p{L}\p{N}])_([^\p{L}\p{N}]|$)/gu, '$1 $2')
+    .replace(/(^|[^\p{L}\p{N}])_/gu, '$1 ')
+    .replace(/_([^\p{L}\p{N}]|$)/gu, ' $1');
 }
 
 /** Teks bersih tanpa penanda format WhatsApp (dipertahankan untuk kompatibilitas). */

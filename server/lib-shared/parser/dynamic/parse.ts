@@ -24,7 +24,11 @@ function normalizeRaw(text: string): string {
     .replace(/\n\s*[-–—]\s*/g, '\n'); // "- Hari :" style key-value prefix
 }
 function stripMarkup(text: string): string {
-  return text.replace(/[*~`]/g, ' ').replace(/(?<![\p{L}\p{N}])_|_(?![\p{L}\p{N}])/gu, ' ');
+  return text
+    .replace(/[*~`]/g, ' ')
+    .replace(/(^|[^\p{L}\p{N}])_([^\p{L}\p{N}]|$)/gu, '$1 $2')
+    .replace(/(^|[^\p{L}\p{N}])_/gu, '$1 ')
+    .replace(/_([^\p{L}\p{N}]|$)/gu, ' $1');
 }
 export function cleanDynamicText(text: string): string {
   return stripMarkup(normalizeRaw(text)).replace(/[ \t]+/g, ' ').replace(/ ?\n ?/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
