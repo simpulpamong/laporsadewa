@@ -4,7 +4,7 @@ export interface DraftPhotoMeta { hasGps?: boolean; lat?: number|null; lng?: num
 type Photo = { photoKey:string; status:'pending'|'uploading'|'uploaded'|'failed'; publicId:string; dataUrl?:string; mime:string; source:string; exifMeta:DraftPhotoMeta; sizeKB:number; url?:string }
 type Draft = { draftId:string; scope:string; teks:string; label:string; photos:Photo[]; createdAt:number }
 const memory = new Map<string,Draft>();
-const firebase = () => Boolean(process.env.FIREBASE_SERVICE_ACCOUNT && process.env.CLOUDINARY_CLOUD_NAME);
+const firebase = () => Boolean((process.env.FIREBASE_SERVICE_ACCOUNT || process.env.FIREBASE_SERVICE_ACCOUNT_JSON) && process.env.CLOUDINARY_CLOUD_NAME);
 const col = () => getFirestore().collection('sadewa-drafts');
 export async function createDraft(x:{draftId:string;scope:string;teks:string;label:string}) { const d={...x,photos:[],createdAt:Date.now()}; if(firebase()) await col().doc(x.draftId).set(d); else memory.set(x.draftId,d); return x.draftId; }
 export async function appendDraftPhoto(x:{draftId:string;scope:string;dataUrl:string;mime:string;source:string;sizeKB:number;exifMeta:DraftPhotoMeta;photoKey?:string}) {
